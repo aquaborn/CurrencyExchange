@@ -21,7 +21,7 @@ namespace CurrencyExchangeService.Features.ExchangeRate.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ExchangeRateViewModel>> GetExchangeRate(string currencyCode, double x, double y)
+        public async Task<ActionResult<ExchangeRateViewModel>> GetExchangeRate(double x, double y)
         {
             var quadrant = _coordinateService.GetCoordinateQuadrant(x, y);
             var insideCircle = _coordinateService.IsInsideCircle(x, y);
@@ -51,7 +51,7 @@ namespace CurrencyExchangeService.Features.ExchangeRate.Controllers
                     return BadRequest("Некорректные координаты квадранта.");
             }
 
-            var exchangeRate = await _exchangeRateService.GetExchangeRate(currencyCode, date);
+            var exchangeRate = await _exchangeRateService.GetExchangeRate(date);
 
             if (exchangeRate == null)
             {

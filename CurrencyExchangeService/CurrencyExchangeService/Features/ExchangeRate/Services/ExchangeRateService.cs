@@ -10,13 +10,15 @@ namespace CurrencyExchangeService.Features.ExchangeRate.Services
     public class ExchangeRateService : IExchangeRateService
     {
         private readonly IExchangeRateService _exchangeRateApiService;
+        private readonly AppSettings _appSettings;
 
-        public ExchangeRateService(IExchangeRateService exchangeRateApiService)
+        public ExchangeRateService(IExchangeRateService exchangeRateApiService, AppSettings appSettings )
         {
             _exchangeRateApiService = exchangeRateApiService;
+            _appSettings = appSettings;
         }
 
-        public async Task<ExchangeRateViewModel> GetExchangeRate(string currencyCode, DateTime date)
+        public async Task<ExchangeRateViewModel> GetExchangeRate(DateTime date)
         {
             string? message = null;
             decimal rate = 0;
@@ -24,14 +26,14 @@ namespace CurrencyExchangeService.Features.ExchangeRate.Services
             {
                 using var httpClient = new HttpClient();
                 // Выполнение GET-запроса к внешнему URL из конфигурации
-                var response = await httpClient.GetAsync(url);
+                var response = await httpClient.GetAsync(_appSettings.ExternalAPI);
 
                 if (response.IsSuccessStatusCode)
                 {
                     // Получение контента ответа
                     var content = await response.Content.ReadAsStringAsync();
                     // Обработка контента ответа, парсинг и извлечение данных о курсе валюты
-                    rate = ParseExchangeRateFromContent(content);               
+                    rate = ParseExchangeRateFromContent(content, _appSettings.CurrencyCode);               
                 }
                 else
                     message = "Нет данных о курсе";
@@ -43,7 +45,7 @@ namespace CurrencyExchangeService.Features.ExchangeRate.Services
             //GetCursOnDate(date)
             return new ExchangeRateViewModel
             {
-                CurrencyCode = currencyCode,
+                CurrencyCode = _appSettings.CurrencyCode,
                 Date = date,
                 Rate = rate,
                 Message = message

@@ -7,6 +7,6 @@ namespace CurrencyExchangeService.Features.ExchangeRate.Interfaces
     /// </summary>
     public interface IExchangeRateService
     {
-        Task<ExchangeRateViewModel> GetExchangeRate(string currencyCode, DateTime date);
+        Task<ExchangeRateViewModel> GetExchangeRate(DateTime date);
     }
 }

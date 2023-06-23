@@ -5,11 +5,11 @@ namespace CurrencyExchangeService.Features.Coordinates.Services
 {
     public class CoordinateService : ICoordinateService
     {
-        private readonly double _circleRadius;
+        private readonly AppSettings _appSettings;
 
-        public CoordinateService(double circleRadius)
+        public CoordinateService(AppSettings appSettings)
         {
-            _circleRadius = circleRadius;
+            _appSettings = appSettings;
         }
 
         public CoordinateQuadrant GetCoordinateQuadrant(double x, double y)
@@ -39,7 +39,7 @@ namespace CurrencyExchangeService.Features.Coordinates.Services
         public bool IsInsideCircle(double x, double y)
         {
             double distance = Math.Sqrt(x * x + y * y);
-            return distance <= _circleRadius;
+            return distance <= _appSettings.CircleRadius;
         }
     }
 }
