@@ -33,7 +33,7 @@ namespace CurrencyExchangeService.Features.ExchangeRate.Services
                     // Получение контента ответа
                     var content = await response.Content.ReadAsStringAsync();
                     // Обработка контента ответа, парсинг и извлечение данных о курсе валюты
-                    rate = ParseExchangeRateFromContent(content, _appSettings.CurrencyCode);               
+                    //rate = ParseExchangeRateFromContent(content, _appSettings.CurrencyCode);               
                 }
                 else
                     message = "Нет данных о курсе";
