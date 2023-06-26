@@ -1,4 +1,8 @@
 using CurrencyExchangeService;
+using CurrencyExchangeService.Features.Coordinates.Intrefaces;
+using CurrencyExchangeService.Features.Coordinates.Services;
+using CurrencyExchangeService.Features.ExchangeRate.Interfaces;
+using CurrencyExchangeService.Features.ExchangeRate.Services;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +22,9 @@ builder.Services.AddSwaggerGen();
 var appSettings = new AppSettings();
 configuration.GetSection("AppSettings").Bind(appSettings);
 builder.Services.AddSingleton(appSettings);
+builder.Services.AddTransient<ICoordinateService, CoordinateService>();
+builder.Services.AddScoped<IExchangeRateService, ExchangeRateService>();
+
 builder.Services.AddLogging(loggingBuilder =>
 {
     loggingBuilder.ClearProviders();

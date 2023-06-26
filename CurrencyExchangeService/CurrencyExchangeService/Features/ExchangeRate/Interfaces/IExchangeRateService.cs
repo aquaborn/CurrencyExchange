@@ -8,5 +8,6 @@ namespace CurrencyExchangeService.Features.ExchangeRate.Interfaces
     public interface IExchangeRateService
     {
         Task<ExchangeRateViewModel> GetExchangeRate(DateTime date);
+        Task<decimal> ParseExchangeRateFromContent(string xml, string curCode);
     }
 }
